@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_films/src/providers/films_provider.dart';
 import 'package:flutter_films/src/widgets/card_swiper_widget.dart';
+import 'package:flutter_films/src/widgets/movie_horizontal.dart';
 
 
 class HomePage extends StatelessWidget {
   //const HomePage({Key key}) : super(key: key);
+
+  final FilmsProvider filmsProvider = new FilmsProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +25,10 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            _swiperCards()
+            _swiperCards(),
+            _footer(context)
           ],
         ),
       )
@@ -32,16 +37,51 @@ class HomePage extends StatelessWidget {
 
   Widget _swiperCards() {
 
-    final FilmsProvider filmsProvider = new FilmsProvider();
+    return FutureBuilder(
+      future: filmsProvider.getNowPlaying(),
+      //initialData: InitialData,
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
 
-    filmsProvider.getNowPlaying();
+        if ( snapshot.hasData ) {
+          return CardSwiper( films: snapshot.data );
+        } else {
+          return Container(
+            height: 400.0,
+            child: Center(
+              child: CircularProgressIndicator()
+            ),
+          );
+        }
+      },
+    );
 
-    return CardSwiper( 
-      films: [1,2,3,4,5],
-     );
+  }
 
+  Widget _footer(BuildContext context) {
 
-
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 20.0),
+            child: Text('Populares', style: Theme.of(context).textTheme.subhead )
+          ),
+          SizedBox(height: 5.0,),
+          FutureBuilder(
+            future: filmsProvider.getPopular(),
+            // initialData: InitialData,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if ( snapshot.hasData ) {
+                return MovieHorizontal( films: snapshot.data );
+              } else {
+                return  Center(child: CircularProgressIndicator());
+              }            },
+          ),
+        ],
+      ),
+    );
 
   }
 }

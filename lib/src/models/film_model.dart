@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
 
 class Films {
 
@@ -15,10 +15,7 @@ class Films {
       final Film film = new Film.fromJsonap(item);
       items.add(film);
     }
-
   }
-
-
 }
 
 class Film {
@@ -81,4 +78,15 @@ class Film {
       return 'https://image.tmdb.org/t/p/w500/$posterPath';
     }
   }
+
+  String getBackgroundImg () {
+
+    if ( posterPath == null ) {
+      return 'https://topekacivictheatre.com/wp-content/uploads/2019/01/no-image.jpg';
+    } else {
+      return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+    }
+  }
+
+
 }

@@ -42,17 +42,22 @@ class MovieHorizontal extends StatelessWidget {
 
   Widget _card ( BuildContext context, Film film ) {
 
+    film.uniqueId = '${film.id}-poster';
+
     final cardFilm = Container (
       margin: EdgeInsets.only(right: 15.0),
       child: Column(
         children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: FadeInImage(
-              image: NetworkImage( film.getPosterImg() ),
-              placeholder: AssetImage('assets/img/no-image.jpg'),
-              fit: BoxFit.cover,
-              height: 100.0,//150 original
+          Hero(
+            tag: film.uniqueId,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: FadeInImage(
+                image: NetworkImage( film.getPosterImg() ),
+                placeholder: AssetImage('assets/img/no-image.jpg'),
+                fit: BoxFit.cover,
+                height: 150.0,//150 original o 100
+              ),
             ),
           ),
           SizedBox(height: 5.0),

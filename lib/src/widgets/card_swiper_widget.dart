@@ -20,14 +20,16 @@ class CardSwiper extends StatelessWidget {
           itemWidth: _screenSize.width * 0.7,
           itemHeight: _screenSize.height * 0.5,
           itemBuilder: (BuildContext context,int index){
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: FadeInImage(
-                image: NetworkImage( films[index].getPosterImg() ),
-                placeholder: AssetImage('assets/img/no-image.jpg'),
-                fit: BoxFit.cover,
-              )
-              //Image.network("http://via.placeholder.com/350x150",fit: BoxFit.cover)
+
+            films[index].uniqueId = '${films[index].id}-tarjetas';
+
+            return Hero(
+              tag: films[index].uniqueId ,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: _createGesture(context, films[index])
+                //Image.network("http://via.placeholder.com/350x150",fit: BoxFit.cover)
+              ),
             );
             
           },
@@ -38,4 +40,27 @@ class CardSwiper extends StatelessWidget {
       ),
     );
   }
+
+  Widget _createGesture ( BuildContext context, Film film) {
+
+    final widgetImage = FadeInImage(
+      image: NetworkImage( film.getPosterImg() ),
+      placeholder: AssetImage('assets/img/no-image.jpg'),
+      fit: BoxFit.cover,
+    );
+
+
+    return GestureDetector(
+      child: widgetImage,
+      onTap: (){
+        //print ('titulo de la pelicula ${film.title}');
+        Navigator.pushNamed(context, 'detalle', arguments: film);
+      },
+    );
+
+
+
+  }
+
+
 }

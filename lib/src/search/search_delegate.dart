@@ -17,8 +17,6 @@ class DataSearch extends SearchDelegate{
 
   final filmsProvider = new FilmsProvider();
 
-
-
   @override
   List<Widget> buildActions(BuildContext context) {
     // TODO: implement buildActions
@@ -121,18 +119,5 @@ class DataSearch extends SearchDelegate{
     //     );
     //   },
     // );
-
-
-
-
-
-
   }
-
-
-
-
-
-
-
 }
